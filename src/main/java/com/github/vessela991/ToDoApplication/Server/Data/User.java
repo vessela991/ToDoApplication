@@ -1,6 +1,8 @@
 package com.github.vessela991.ToDoApplication.Server.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -20,13 +22,32 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Task> tasks;
 
-    public User(String username, String password) {
+    @Column(nullable = false)
+    private String roles;
+
+    public User(String username, String password, String roles) {
         this.username = username;
         this.password = password;
+        this.roles = roles;
     }
 
     public int getId() {
         return id;
+    }
+
+    public List<String> getRolesList() {
+        if (this.roles.length() > 0) {
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    public String getRoles() {
+        return roles;
     }
 
     public String getUsername() {
